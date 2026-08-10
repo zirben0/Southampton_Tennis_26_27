@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wednesday Tennis Schedule 2026-27</title>
+<style>
+  :root{--bg:#f6f7f5;--card:#fff;--ink:#1c2320;--muted:#6b7671;--line:#e2e6e2;
+        --accent:#2f6f4f;--accent-soft:#e8f2ec;--off:#fbfbfa;--next:#fff6d9;}
+  *{box-sizing:border-box}
+  body{margin:0;padding:28px 16px 60px;background:var(--bg);color:var(--ink);
+       font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:940px;margin:0 auto}
+  h1{margin:0 0 4px;font-size:26px;letter-spacing:-.02em}
+  .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:15px}
+  thead th{background:var(--accent-soft);color:var(--accent);font-size:12px;text-transform:uppercase;
+           letter-spacing:.06em;font-weight:700;position:sticky;top:0}
+  tbody tr:nth-child(even){background:var(--off)}
+  tbody tr.next{background:var(--next);box-shadow:inset 3px 0 0 var(--accent)}
+  tbody tr.past{opacity:.42}
+  td.wk{color:var(--muted);width:52px;font-variant-numeric:tabular-nums}
+  td.date{white-space:nowrap;font-weight:600;font-variant-numeric:tabular-nums}
+  .half{color:var(--accent);font-weight:600}
+  .out{color:var(--muted);font-size:14px}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+  .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:13px}
+  .pill b{font-weight:600}
+  .counts{margin-top:22px;font-size:14px;color:var(--muted)}
+  .counts table{max-width:360px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  .counts td{padding:7px 12px;font-size:14px}
+  .note{margin-top:24px;font-size:13px;color:var(--muted);line-height:1.7}
+  .note b{color:var(--ink)}
+  @media (max-width:640px){th,td{padding:9px 8px;font-size:14px}body{padding:16px 8px 50px}}
+  @media print{body{background:#fff}tbody tr.past{opacity:1}.note{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Wednesday Tennis &mdash; 2026/27 Season</h1>
+<p class="sub" id="sub"></p>
+<div class="legend">
+  <span class="pill"><b>Full shares:</b> Oleg, Ken, Mark</span>
+  <span class="pill"><b>Half shares:</b> Marty, Bart, Alex</span>
+</div>
+<div class="card">
+  <table>
+    <thead><tr><th class="wk">#</th><th>Date</th><th>Team A</th><th>Team B</th><th>Sitting out</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+</div>
+<div class="counts">
+  <div style="margin-bottom:8px">Appearances</div>
+  <table id="counts"></table>
+</div>
+<p class="note">
+  <b>Holidays:</b> Thanksgiving (Thu Nov 26) and Christmas (Fri Dec 25) both fall on non-Wednesdays
+  in 2026, so no dates are lost &mdash; 32 playing weeks.<br>
+  <b>Oleg</b> is out for September, so Sep 23 &amp; Sep 30 run as Ken + Mark + two half-share players.<br>
+  <b>Marty&rsquo;s</b> 11 dates all fall in the first three months, finishing Dec 16; Bart (12) and
+  Alex (11) carry the rest of the season. Partnerships rotate so no pair repeats too often.
+</p>
+<script>
+const CONFIG = { time:"", location:"" };  // e.g. time:"7:00-8:30 pm", location:"Court 3"
+const HALVES = ["Marty","Bart","Alex"];
+const WEEKS = [{"n":1,"d":"2026-09-23","a":["Ken","Alex"],"b":["Mark","Marty"],"out":["Oleg","Bart"]},{"n":2,"d":"2026-09-30","a":["Ken","Bart"],"b":["Mark","Marty"],"out":["Oleg","Alex"]},{"n":3,"d":"2026-10-07","a":["Mark","Marty"],"b":["Oleg","Ken"],"out":["Bart","Alex"]},{"n":4,"d":"2026-10-14","a":["Ken","Marty"],"b":["Oleg","Mark"],"out":["Bart","Alex"]},{"n":5,"d":"2026-10-21","a":["Mark","Marty"],"b":["Oleg","Ken"],"out":["Bart","Alex"]},{"n":6,"d":"2026-10-28","a":["Oleg","Marty"],"b":["Ken","Mark"],"out":["Bart","Alex"]},{"n":7,"d":"2026-11-04","a":["Mark","Alex"],"b":["Oleg","Ken"],"out":["Marty","Bart"]},{"n":8,"d":"2026-11-11","a":["Oleg","Marty"],"b":["Ken","Mark"],"out":["Bart","Alex"]},{"n":9,"d":"2026-11-18","a":["Ken","Marty"],"b":["Oleg","Mark"],"out":["Bart","Alex"]},{"n":10,"d":"2026-11-25","a":["Oleg","Marty"],"b":["Ken","Mark"],"out":["Bart","Alex"]},{"n":11,"d":"2026-12-02","a":["Ken","Bart"],"b":["Oleg","Mark"],"out":["Marty","Alex"]},{"n":12,"d":"2026-12-09","a":["Mark","Marty"],"b":["Oleg","Ken"],"out":["Bart","Alex"]},{"n":13,"d":"2026-12-16","a":["Ken","Marty"],"b":["Oleg","Mark"],"out":["Bart","Alex"]},{"n":14,"d":"2026-12-23","a":["Mark","Bart"],"b":["Oleg","Ken"],"out":["Marty","Alex"]},{"n":15,"d":"2026-12-30","a":["Oleg","Alex"],"b":["Ken","Mark"],"out":["Marty","Bart"]},{"n":16,"d":"2027-01-06","a":["Mark","Bart"],"b":["Oleg","Ken"],"out":["Marty","Alex"]},{"n":17,"d":"2027-01-13","a":["Oleg","Alex"],"b":["Ken","Mark"],"out":["Marty","Bart"]},{"n":18,"d":"2027-01-20","a":["Ken","Bart"],"b":["Oleg","Mark"],"out":["Marty","Alex"]},{"n":19,"d":"2027-01-27","a":["Oleg","Alex"],"b":["Ken","Mark"],"out":["Marty","Bart"]},{"n":20,"d":"2027-02-03","a":["Ken","Bart"],"b":["Oleg","Mark"],"out":["Marty","Alex"]},{"n":21,"d":"2027-02-10","a":["Mark","Alex"],"b":["Oleg","Ken"],"out":["Marty","Bart"]},{"n":22,"d":"2027-02-17","a":["Ken","Bart"],"b":["Oleg","Mark"],"out":["Marty","Alex"]},{"n":23,"d":"2027-02-24","a":["Mark","Alex"],"b":["Oleg","Ken"],"out":["Marty","Bart"]},{"n":24,"d":"2027-03-03","a":["Oleg","Bart"],"b":["Ken","Mark"],"out":["Marty","Alex"]},{"n":25,"d":"2027-03-10","a":["Mark","Alex"],"b":["Oleg","Ken"],"out":["Marty","Bart"]},{"n":26,"d":"2027-03-17","a":["Oleg","Bart"],"b":["Ken","Mark"],"out":["Marty","Alex"]},{"n":27,"d":"2027-03-24","a":["Ken","Alex"],"b":["Oleg","Mark"],"out":["Marty","Bart"]},{"n":28,"d":"2027-03-31","a":["Oleg","Bart"],"b":["Ken","Mark"],"out":["Marty","Alex"]},{"n":29,"d":"2027-04-07","a":["Ken","Alex"],"b":["Oleg","Mark"],"out":["Marty","Bart"]},{"n":30,"d":"2027-04-14","a":["Mark","Bart"],"b":["Oleg","Ken"],"out":["Marty","Alex"]},{"n":31,"d":"2027-04-21","a":["Ken","Alex"],"b":["Oleg","Mark"],"out":["Marty","Bart"]},{"n":32,"d":"2027-04-28","a":["Mark","Bart"],"b":["Oleg","Ken"],"out":["Marty","Alex"]}];
+const parse=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const fmt=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"});
+const today=new Date();today.setHours(0,0,0,0);
+const dts=WEEKS.map(w=>parse(w.d));
+const nextIdx=dts.findIndex(d=>d>=today);
+document.getElementById("sub").textContent =
+  WEEKS.length+" weeks \u00b7 "+fmt(dts[0])+" \u2192 "+fmt(dts[dts.length-1])
+  +(CONFIG.time?" \u00b7 "+CONFIG.time:"")+(CONFIG.location?" \u00b7 "+CONFIG.location:"");
+const mark=p=>HALVES.includes(p)?'<span class="half">'+p+'</span>':p;
+document.getElementById("rows").innerHTML=WEEKS.map((w,i)=>{
+  const cls=i===nextIdx?"next":(dts[i]<today?"past":"");
+  return '<tr class="'+cls+'"><td class="wk">'+w.n+'</td><td class="date">'+fmt(dts[i])+'</td>'
+    +'<td>'+w.a.map(mark).join(" &amp; ")+'</td><td>'+w.b.map(mark).join(" &amp; ")+'</td>'
+    +'<td class="out">'+w.out.join(", ")+'</td></tr>';
+}).join("");
+const tally={};["Oleg","Ken","Mark","Marty","Bart","Alex"].forEach(p=>tally[p]=0);
+WEEKS.forEach(w=>w.a.concat(w.b).forEach(p=>tally[p]++));
+document.getElementById("counts").innerHTML=Object.entries(tally).map(([p,c])=>
+  '<tr><td>'+p+'</td><td style="text-align:right;font-variant-numeric:tabular-nums">'+c+' weeks</td></tr>').join("");
+</script>
+</div>
+</body>
+</html>
