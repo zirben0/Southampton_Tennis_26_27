@@ -47,6 +47,10 @@
       padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
   .dl:hover{filter:brightness(1.1)}
   .dl.ghost{background:#fff;color:var(--accent);font-weight:500}
+  .subout{text-decoration:line-through;opacity:.5}
+  .subin{color:#b4531f;font-weight:600}
+  .subin::before{content:"\2192 ";opacity:.6}
+  tbody tr.subrow{box-shadow:inset 3px 0 0 #b4531f}
   .barnote{font-size:13px;color:var(--muted)}
   tbody tr.dim{display:none}
   @media print{.bar,.clear{display:none}}
@@ -82,11 +86,14 @@
   (14 each) carry the rest of the season.<br>
   <b>Holidays:</b> Thanksgiving (Thu Nov 26) and Christmas (Fri Dec 25) fall on non-Wednesdays in
   2026, so no dates are lost &mdash; 32 playing weeks.<br>
+  <b>Subs:</b> substitutions live in the <code>SUBS</code> block at the top of this file &mdash; one
+  line per sub. The regular&rsquo;s name shows struck through with the fill-in beside it, and season
+  fees are unchanged (the share-holder pays for the slot either way).<br>
   <b>Calendar:</b> click a name, then the green button, to download a <code>.ics</code> file of just
   that player&rsquo;s games (7&ndash;9 pm ET, with a 2-hour reminder). Opens in Apple Calendar,
   Google Calendar and Outlook.
 </p>
-<p class="note" style="margin-top:10px">Version <span id="ver">2026-08-10</span></p>
+<p class="note" style="margin-top:10px">Version <span id="ver">2026-08-10-b</span></p>
 <script>
 const CONFIG = {
   time:"7:00\u20139:00 pm ET",      // display label
@@ -95,6 +102,20 @@ const CONFIG = {
   tz:"America/New_York"
 };
 const HALVES = ["Marty","Bart","Alex"];
+
+/* ---------- SUBS: add a line per substitution, then commit ----------
+   Key = the Wednesday (YYYY-MM-DD).  out = regular player, in = fill-in.
+   Season fees are unaffected: the regular still counts as having played
+   (they pay for the slot regardless of who fills it).
+   Two subs on the same date? Use an array: "2026-10-14":[{...},{...}]      */
+const SUBS = {
+  // "2026-10-14": { out:"Ken",  in:"Dave R." },
+  // "2027-02-03": { out:"Alex", in:"Jim P."  }
+};
+/* ------------------------------------------------------------------- */
+
+const subsFor = d => { const v = SUBS[d]; return !v ? [] : (Array.isArray(v)?v:[v]); };
+const subIn   = (d,p) => { const m = subsFor(d).filter(x=>x.out===p)[0]; return m?m.in:null; };
 const WEEKS = [{"n":1,"d":"2026-09-23","a":["Ken","Marty"],"b":["Mark","Alex"],"out":["Oleg","Bart"]},{"n":2,"d":"2026-09-30","a":["Ken","Bart"],"b":["Mark","Marty"],"out":["Oleg","Alex"]},{"n":3,"d":"2026-10-07","a":["Oleg","Marty"],"b":["Mark","Bart"],"out":["Ken","Alex"]},{"n":4,"d":"2026-10-14","a":["Oleg","Ken"],"b":["Mark","Marty"],"out":["Bart","Alex"]},{"n":5,"d":"2026-10-21","a":["Oleg","Marty"],"b":["Ken","Alex"],"out":["Mark","Bart"]},{"n":6,"d":"2026-10-28","a":["Ken","Mark"],"b":["Marty","Bart"],"out":["Oleg","Alex"]},{"n":7,"d":"2026-11-04","a":["Oleg","Mark"],"b":["Ken","Marty"],"out":["Bart","Alex"]},{"n":8,"d":"2026-11-11","a":["Oleg","Mark"],"b":["Marty","Alex"],"out":["Ken","Bart"]},{"n":9,"d":"2026-11-18","a":["Oleg","Bart"],"b":["Ken","Marty"],"out":["Mark","Alex"]},{"n":10,"d":"2026-11-25","a":["Oleg","Ken"],"b":["Mark","Marty"],"out":["Bart","Alex"]},{"n":11,"d":"2026-12-02","a":["Ken","Mark"],"b":["Marty","Alex"],"out":["Oleg","Bart"]},{"n":12,"d":"2026-12-09","a":["Oleg","Marty"],"b":["Mark","Bart"],"out":["Ken","Alex"]},{"n":13,"d":"2026-12-16","a":["Oleg","Ken"],"b":["Mark","Marty"],"out":["Bart","Alex"]},{"n":14,"d":"2026-12-23","a":["Oleg","Alex"],"b":["Ken","Marty"],"out":["Mark","Bart"]},{"n":15,"d":"2026-12-30","a":["Oleg","Mark"],"b":["Ken","Bart"],"out":["Marty","Alex"]},{"n":16,"d":"2027-01-06","a":["Oleg","Alex"],"b":["Ken","Mark"],"out":["Marty","Bart"]},{"n":17,"d":"2027-01-13","a":["Oleg","Bart"],"b":["Ken","Mark"],"out":["Marty","Alex"]},{"n":18,"d":"2027-01-20","a":["Oleg","Ken"],"b":["Mark","Alex"],"out":["Marty","Bart"]},{"n":19,"d":"2027-01-27","a":["Oleg","Mark"],"b":["Ken","Bart"],"out":["Marty","Alex"]},{"n":20,"d":"2027-02-03","a":["Oleg","Mark"],"b":["Ken","Alex"],"out":["Marty","Bart"]},{"n":21,"d":"2027-02-10","a":["Oleg","Ken"],"b":["Mark","Bart"],"out":["Marty","Alex"]},{"n":22,"d":"2027-02-17","a":["Oleg","Alex"],"b":["Ken","Mark"],"out":["Marty","Bart"]},{"n":23,"d":"2027-02-24","a":["Oleg","Bart"],"b":["Ken","Mark"],"out":["Marty","Alex"]},{"n":24,"d":"2027-03-03","a":["Oleg","Ken"],"b":["Mark","Alex"],"out":["Marty","Bart"]},{"n":25,"d":"2027-03-10","a":["Oleg","Mark"],"b":["Ken","Bart"],"out":["Marty","Alex"]},{"n":26,"d":"2027-03-17","a":["Oleg","Mark"],"b":["Ken","Alex"],"out":["Marty","Bart"]},{"n":27,"d":"2027-03-24","a":["Oleg","Ken"],"b":["Mark","Bart"],"out":["Marty","Alex"]},{"n":28,"d":"2027-03-31","a":["Oleg","Alex"],"b":["Ken","Mark"],"out":["Marty","Bart"]},{"n":29,"d":"2027-04-07","a":["Oleg","Bart"],"b":["Ken","Mark"],"out":["Marty","Alex"]},{"n":30,"d":"2027-04-14","a":["Oleg","Ken"],"b":["Mark","Alex"],"out":["Marty","Bart"]},{"n":31,"d":"2027-04-21","a":["Oleg","Mark"],"b":["Ken","Bart"],"out":["Marty","Alex"]},{"n":32,"d":"2027-04-28","a":["Oleg","Mark"],"b":["Ken","Alex"],"out":["Marty","Bart"]}];
 const COSTS = {"Oleg":{"games":28,"fee":774.5,"rate":27.66},"Ken":{"games":29,"fee":774.5,"rate":26.71},"Mark":{"games":29,"fee":774.5,"rate":26.71},"Marty":{"games":14,"fee":387.25,"rate":27.66},"Bart":{"games":14,"fee":387.25,"rate":27.66},"Alex":{"games":14,"fee":387.25,"rate":27.66}};
 
@@ -107,6 +128,8 @@ let sel=null;
 const DOT="\u00b7", ARR="\u2192";
 
 const name=p=>'<span class="p'+(HALVES.includes(p)?' half':'')+'" data-p="'+p+'">'+p+'</span>';
+const slot=(p,d)=>{ const g=subIn(d,p);
+  return g? '<span class="subout">'+name(p)+'</span> <span class="subin">'+g+'</span>' : name(p); };
 
 document.getElementById("sub").textContent =
   WEEKS.length+" weeks "+DOT+" "+fmt(dts[0])+" "+ARR+" "+fmt(dts[dts.length-1])
@@ -114,11 +137,15 @@ document.getElementById("sub").textContent =
 
 function renderRows(){
   document.getElementById("rows").innerHTML=WEEKS.map((w,i)=>{
-    const plays = !sel || w.a.includes(sel) || w.b.includes(sel);
+    const onCard = w.a.includes(sel) || w.b.includes(sel);
+    const subbed = sel && onCard && subIn(w.d, sel);
+    const plays  = !sel || onCard;
     let cls = i===nextIdx?"next":(dts[i]<today?"past":"");
     if(sel && !plays) cls+=" dim";
+    if(subbed) cls+=" subrow";
     return '<tr class="'+cls+'"><td class="wk">'+w.n+'</td><td class="date">'+fmt(dts[i])+'</td>'
-      +'<td>'+w.a.map(name).join(" &amp; ")+'</td><td>'+w.b.map(name).join(" &amp; ")+'</td>'
+      +'<td>'+w.a.map(p=>slot(p,w.d)).join(" &amp; ")+'</td>'
+      +'<td>'+w.b.map(p=>slot(p,w.d)).join(" &amp; ")+'</td>'
       +'<td class="out">'+w.out.map(name).join(", ")+'</td></tr>';
   }).join("");
 }
@@ -152,18 +179,25 @@ function esc(t){return String(t).replace(/([\\,;])/g,"\\$1").replace(/\n/g,"\\n"
 function fold(l){ const out=[]; while(l.length>73){ out.push(l.slice(0,73)); l=" "+l.slice(73);} out.push(l); return out.join("\r\n"); }
 
 function buildICS(player){
-  const list = player ? WEEKS.filter(w=>w.a.includes(player)||w.b.includes(player)) : WEEKS;
+  const list = player ? WEEKS.filter(w=>(w.a.includes(player)||w.b.includes(player)) && !subIn(w.d,player))
+                      : WEEKS;
+  const show = (p,d) => subIn(d,p) || p;
   const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//SH Tennis//Schedule 2026-27//EN",
                "CALSCALE:GREGORIAN","METHOD:PUBLISH",
                "X-WR-CALNAME:"+esc(player?player+" \u2013 Wednesday Tennis":"Wednesday Tennis 2026/27"),
                "X-WR-TIMEZONE:"+CONFIG.tz].concat(TZBLOCK);
   list.forEach(w=>{
     const team = w.a.includes(player)?w.a:w.b, opp = w.a.includes(player)?w.b:w.a;
-    const title = player ? "Tennis \u2013 with "+team.filter(p=>p!==player)[0]
-                         : "Tennis \u2013 "+w.a.join(" & ")+" vs "+w.b.join(" & ");
-    const desc = (player? "You + "+team.filter(p=>p!==player)[0]+" vs "+opp.join(" & ") + "\n"
-                        : "") + "Team A: "+w.a.join(" & ")+"\nTeam B: "+w.b.join(" & ")
-                        + "\nSitting out: "+w.out.join(", ")+"\nWeek "+w.n+" of "+WEEKS.length;
+    const A=w.a.map(p=>show(p,w.d)), B=w.b.map(p=>show(p,w.d));
+    const title = player ? "Tennis \u2013 with "+team.filter(p=>p!==player).map(p=>show(p,w.d))[0]
+                         : "Tennis \u2013 "+A.join(" & ")+" vs "+B.join(" & ");
+    const subTxt = subsFor(w.d).map(x=>x.in+" subbing for "+x.out).join(", ");
+    const desc = (player? "You + "+team.filter(p=>p!==player).map(p=>show(p,w.d))[0]+" vs "+
+                          opp.map(p=>show(p,w.d)).join(" & ")+"\n" : "")
+               + "Team A: "+A.join(" & ")+"\nTeam B: "+B.join(" & ")
+               + "\nSitting out: "+w.out.join(", ")
+               + (subTxt? "\nSubs: "+subTxt : "")
+               + "\nWeek "+w.n+" of "+WEEKS.length;
     lines.push("BEGIN:VEVENT",
       "UID:shtennis-"+w.n+"-"+(player||"all").toLowerCase()+"@shtennis",
       "DTSTAMP:"+new Date().toISOString().replace(/[-:]/g,"").split(".")[0]+"Z",
@@ -192,13 +226,16 @@ function renderBar(){
   const bar=document.getElementById("bar");
   if(!sel){ bar.innerHTML='<span class="barnote">Click any player name to see just their games.</span>'
       +'<button class="dl ghost" onclick="download(null)">Download full season (.ics)</button>'; return; }
-  const mine=WEEKS.filter(w=>w.a.includes(sel)||w.b.includes(sel));
+  const carded=WEEKS.filter(w=>w.a.includes(sel)||w.b.includes(sel));
+  const subbedOut=carded.filter(w=>subIn(w.d,sel));
+  const mine=carded.filter(w=>!subIn(w.d,sel));
   const upcoming=mine.filter(w=>parse(w.d)>=today);
   const nx=upcoming[0];
   const partner=nx?(nx.a.includes(sel)?nx.a:nx.b).filter(p=>p!==sel)[0]:null;
   bar.innerHTML='<span class="chip">'+sel+'</span>'
     +'<span class="barnote">'+mine.length+' games '+DOT+' '+upcoming.length+' remaining'
-    +(nx?' '+DOT+' next: '+fmt(parse(nx.d))+' with '+partner:'')+'</span>'
+    +(subbedOut.length?' '+DOT+' '+subbedOut.length+' subbed out':'')
+    +(nx?' '+DOT+' next: '+fmt(parse(nx.d))+' with '+(subIn(nx.d,partner)||partner):'')+'</span>'
     +'<button class="dl" onclick="download(sel)">Add '+sel+'\u2019s games to calendar</button>'
     +'<button class="clear" onclick="pick(null)">Show all</button>';
 }
