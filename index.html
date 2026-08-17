@@ -63,8 +63,8 @@
 <h1>Wednesday Tennis &mdash; 2026/27 Season</h1>
 <p class="sub" id="sub"></p>
 <div class="legend">
-  <span class="pill"><b>Full shares:</b> <span class="p" data-p="Oleg">Oleg</span>, <span class="p" data-p="Ken">Ken</span>, <span class="p" data-p="Mark">Mark</span></span>
-  <span class="pill"><b>Half shares:</b> <span class="p half" data-p="Marty">Marty</span>, <span class="p half" data-p="Bart">Bart</span>, <span class="p half" data-p="Alex">Alex</span></span>
+  <span class="pill"><b>Full:</b> <span class="p" data-p="Oleg">Oleg</span>, <span class="p" data-p="Ken">Ken</span>, <span class="p" data-p="Mark">Mark</span></span>
+  <span class="pill"><b>Partial:</b> <span class="p half" data-p="Bart">Bart</span>, <span class="p half" data-p="Alex">Alex</span>, <span class="p half" data-p="Marty">Marty</span></span>
 </div>
 <div class="bar" id="bar"></div>
 <div class="card">
@@ -78,12 +78,12 @@
   <table id="counts"></table>
 </div>
 <p class="note">
-  <b>Cost balance:</b> full shares pay $774.50, half shares $387.25 &mdash; a 2:1 ratio, so half
-  shares need roughly half the games to pay the same rate. Full shares therefore sit out a handful
-  of weeks, landing everyone within <b>$0.95 per game</b> ($26.71&ndash;$27.66).<br>
+  <b>Cost balance:</b> every player pays within <b>$0.95 per game</b> of every other
+  ($26.71&ndash;$27.66). Season pot is $3,485.25 across 128 games.<br>
+  <b>Marty</b> finishes by Nov 25 (10 games, $276.61). <b>Bart</b> absorbs those four weeks
+  (18 games, $497.89) &mdash; the two of them split the standard half-share pair between them.
+  Everyone else&rsquo;s fee is unchanged.<br>
   <b>Oleg</b> is out for September; Sep 23 &amp; Sep 30 run as Ken + Mark + two half shares.<br>
-  <b>Marty&rsquo;s</b> 14 games all fall in the first three months, ending Dec 23. Bart and Alex
-  (14 each) carry the rest of the season.<br>
   <b>Holidays:</b> Thanksgiving (Thu Nov 26) and Christmas (Fri Dec 25) fall on non-Wednesdays in
   2026, so no dates are lost &mdash; 32 playing weeks.<br>
   <b>Subs:</b> substitutions live in the <code>SUBS</code> block at the top of this file &mdash; one
@@ -93,7 +93,7 @@
   that player&rsquo;s games (7&ndash;9 pm ET, with a 2-hour reminder). Opens in Apple Calendar,
   Google Calendar and Outlook.
 </p>
-<p class="note" style="margin-top:10px">Version <span id="ver">2026-08-10-b</span></p>
+<p class="note" style="margin-top:10px">Version <span id="ver">2026-08-17-c</span></p>
 <script>
 const CONFIG = {
   time:"7:00\u20139:00 pm ET",      // display label
@@ -116,8 +116,8 @@ const SUBS = {
 
 const subsFor = d => { const v = SUBS[d]; return !v ? [] : (Array.isArray(v)?v:[v]); };
 const subIn   = (d,p) => { const m = subsFor(d).filter(x=>x.out===p)[0]; return m?m.in:null; };
-const WEEKS = [{"n":1,"d":"2026-09-23","a":["Ken","Marty"],"b":["Mark","Alex"],"out":["Oleg","Bart"]},{"n":2,"d":"2026-09-30","a":["Ken","Bart"],"b":["Mark","Marty"],"out":["Oleg","Alex"]},{"n":3,"d":"2026-10-07","a":["Oleg","Marty"],"b":["Mark","Bart"],"out":["Ken","Alex"]},{"n":4,"d":"2026-10-14","a":["Oleg","Ken"],"b":["Mark","Marty"],"out":["Bart","Alex"]},{"n":5,"d":"2026-10-21","a":["Oleg","Marty"],"b":["Ken","Alex"],"out":["Mark","Bart"]},{"n":6,"d":"2026-10-28","a":["Ken","Mark"],"b":["Marty","Bart"],"out":["Oleg","Alex"]},{"n":7,"d":"2026-11-04","a":["Oleg","Mark"],"b":["Ken","Marty"],"out":["Bart","Alex"]},{"n":8,"d":"2026-11-11","a":["Oleg","Mark"],"b":["Marty","Alex"],"out":["Ken","Bart"]},{"n":9,"d":"2026-11-18","a":["Oleg","Bart"],"b":["Ken","Marty"],"out":["Mark","Alex"]},{"n":10,"d":"2026-11-25","a":["Oleg","Ken"],"b":["Mark","Marty"],"out":["Bart","Alex"]},{"n":11,"d":"2026-12-02","a":["Ken","Mark"],"b":["Marty","Alex"],"out":["Oleg","Bart"]},{"n":12,"d":"2026-12-09","a":["Oleg","Marty"],"b":["Mark","Bart"],"out":["Ken","Alex"]},{"n":13,"d":"2026-12-16","a":["Oleg","Ken"],"b":["Mark","Marty"],"out":["Bart","Alex"]},{"n":14,"d":"2026-12-23","a":["Oleg","Alex"],"b":["Ken","Marty"],"out":["Mark","Bart"]},{"n":15,"d":"2026-12-30","a":["Oleg","Mark"],"b":["Ken","Bart"],"out":["Marty","Alex"]},{"n":16,"d":"2027-01-06","a":["Oleg","Alex"],"b":["Ken","Mark"],"out":["Marty","Bart"]},{"n":17,"d":"2027-01-13","a":["Oleg","Bart"],"b":["Ken","Mark"],"out":["Marty","Alex"]},{"n":18,"d":"2027-01-20","a":["Oleg","Ken"],"b":["Mark","Alex"],"out":["Marty","Bart"]},{"n":19,"d":"2027-01-27","a":["Oleg","Mark"],"b":["Ken","Bart"],"out":["Marty","Alex"]},{"n":20,"d":"2027-02-03","a":["Oleg","Mark"],"b":["Ken","Alex"],"out":["Marty","Bart"]},{"n":21,"d":"2027-02-10","a":["Oleg","Ken"],"b":["Mark","Bart"],"out":["Marty","Alex"]},{"n":22,"d":"2027-02-17","a":["Oleg","Alex"],"b":["Ken","Mark"],"out":["Marty","Bart"]},{"n":23,"d":"2027-02-24","a":["Oleg","Bart"],"b":["Ken","Mark"],"out":["Marty","Alex"]},{"n":24,"d":"2027-03-03","a":["Oleg","Ken"],"b":["Mark","Alex"],"out":["Marty","Bart"]},{"n":25,"d":"2027-03-10","a":["Oleg","Mark"],"b":["Ken","Bart"],"out":["Marty","Alex"]},{"n":26,"d":"2027-03-17","a":["Oleg","Mark"],"b":["Ken","Alex"],"out":["Marty","Bart"]},{"n":27,"d":"2027-03-24","a":["Oleg","Ken"],"b":["Mark","Bart"],"out":["Marty","Alex"]},{"n":28,"d":"2027-03-31","a":["Oleg","Alex"],"b":["Ken","Mark"],"out":["Marty","Bart"]},{"n":29,"d":"2027-04-07","a":["Oleg","Bart"],"b":["Ken","Mark"],"out":["Marty","Alex"]},{"n":30,"d":"2027-04-14","a":["Oleg","Ken"],"b":["Mark","Alex"],"out":["Marty","Bart"]},{"n":31,"d":"2027-04-21","a":["Oleg","Mark"],"b":["Ken","Bart"],"out":["Marty","Alex"]},{"n":32,"d":"2027-04-28","a":["Oleg","Mark"],"b":["Ken","Alex"],"out":["Marty","Bart"]}];
-const COSTS = {"Oleg":{"games":28,"fee":774.5,"rate":27.66},"Ken":{"games":29,"fee":774.5,"rate":26.71},"Mark":{"games":29,"fee":774.5,"rate":26.71},"Marty":{"games":14,"fee":387.25,"rate":27.66},"Bart":{"games":14,"fee":387.25,"rate":27.66},"Alex":{"games":14,"fee":387.25,"rate":27.66}};
+const WEEKS = [{"n":1,"d":"2026-09-23","a":["Ken","Marty"],"b":["Mark","Bart"],"out":["Oleg","Alex"]},{"n":2,"d":"2026-09-30","a":["Ken","Alex"],"b":["Mark","Marty"],"out":["Oleg","Bart"]},{"n":3,"d":"2026-10-07","a":["Oleg","Marty"],"b":["Ken","Mark"],"out":["Bart","Alex"]},{"n":4,"d":"2026-10-14","a":["Oleg","Ken"],"b":["Marty","Bart"],"out":["Mark","Alex"]},{"n":5,"d":"2026-10-21","a":["Oleg","Mark"],"b":["Marty","Alex"],"out":["Ken","Bart"]},{"n":6,"d":"2026-10-28","a":["Oleg","Marty"],"b":["Ken","Mark"],"out":["Bart","Alex"]},{"n":7,"d":"2026-11-04","a":["Oleg","Bart"],"b":["Marty","Mark"],"out":["Ken","Alex"]},{"n":8,"d":"2026-11-11","a":["Oleg","Alex"],"b":["Marty","Ken"],"out":["Mark","Bart"]},{"n":9,"d":"2026-11-18","a":["Oleg","Ken"],"b":["Marty","Mark"],"out":["Bart","Alex"]},{"n":10,"d":"2026-11-25","a":["Oleg","Marty"],"b":["Bart","Alex"],"out":["Ken","Mark"]},{"n":11,"d":"2026-12-02","a":["Ken","Bart"],"b":["Mark","Oleg"],"out":["Marty","Alex"]},{"n":12,"d":"2026-12-09","a":["Ken","Mark"],"b":["Oleg","Bart"],"out":["Marty","Alex"]},{"n":13,"d":"2026-12-16","a":["Ken","Oleg"],"b":["Mark","Bart"],"out":["Marty","Alex"]},{"n":14,"d":"2026-12-23","a":["Ken","Bart"],"b":["Mark","Oleg"],"out":["Marty","Alex"]},{"n":15,"d":"2026-12-30","a":["Ken","Oleg"],"b":["Mark","Alex"],"out":["Marty","Bart"]},{"n":16,"d":"2027-01-06","a":["Ken","Mark"],"b":["Oleg","Bart"],"out":["Marty","Alex"]},{"n":17,"d":"2027-01-13","a":["Ken","Alex"],"b":["Mark","Oleg"],"out":["Marty","Bart"]},{"n":18,"d":"2027-01-20","a":["Ken","Oleg"],"b":["Mark","Bart"],"out":["Marty","Alex"]},{"n":19,"d":"2027-01-27","a":["Ken","Mark"],"b":["Oleg","Alex"],"out":["Marty","Bart"]},{"n":20,"d":"2027-02-03","a":["Ken","Bart"],"b":["Mark","Oleg"],"out":["Marty","Alex"]},{"n":21,"d":"2027-02-10","a":["Ken","Oleg"],"b":["Mark","Alex"],"out":["Marty","Bart"]},{"n":22,"d":"2027-02-17","a":["Ken","Mark"],"b":["Oleg","Bart"],"out":["Marty","Alex"]},{"n":23,"d":"2027-02-24","a":["Ken","Alex"],"b":["Mark","Oleg"],"out":["Marty","Bart"]},{"n":24,"d":"2027-03-03","a":["Ken","Oleg"],"b":["Mark","Bart"],"out":["Marty","Alex"]},{"n":25,"d":"2027-03-10","a":["Ken","Mark"],"b":["Oleg","Alex"],"out":["Marty","Bart"]},{"n":26,"d":"2027-03-17","a":["Ken","Bart"],"b":["Mark","Oleg"],"out":["Marty","Alex"]},{"n":27,"d":"2027-03-24","a":["Ken","Oleg"],"b":["Mark","Alex"],"out":["Marty","Bart"]},{"n":28,"d":"2027-03-31","a":["Ken","Mark"],"b":["Bart","Oleg"],"out":["Marty","Alex"]},{"n":29,"d":"2027-04-07","a":["Ken","Alex"],"b":["Mark","Bart"],"out":["Oleg","Marty"]},{"n":30,"d":"2027-04-14","a":["Ken","Bart"],"b":["Mark","Oleg"],"out":["Marty","Alex"]},{"n":31,"d":"2027-04-21","a":["Alex","Mark"],"b":["Ken","Oleg"],"out":["Marty","Bart"]},{"n":32,"d":"2027-04-28","a":["Bart","Ken"],"b":["Mark","Alex"],"out":["Oleg","Marty"]}];
+const COSTS = {"Oleg":{"games":28,"fee":774.5,"rate":27.66},"Ken":{"games":29,"fee":774.5,"rate":26.71},"Mark":{"games":29,"fee":774.5,"rate":26.71},"Marty":{"games":10,"fee":276.61,"rate":27.66},"Bart":{"games":18,"fee":497.89,"rate":27.66},"Alex":{"games":14,"fee":387.25,"rate":27.66}};
 
 const parse=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
 const fmt=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"});
