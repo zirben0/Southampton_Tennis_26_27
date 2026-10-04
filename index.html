@@ -109,7 +109,7 @@ const HALVES = ["Marty","Bart","Alex"];
    (they pay for the slot regardless of who fills it).
    Two subs on the same date? Use an array: "2026-10-14":[{...},{...}]      */
 const SUBS = {
-  // "2026-10-14": { out:"Ken",  in:"Dave R." },
+  "2026-10-07": { out:"Marty", in:"Bart" }
   // "2027-02-03": { out:"Alex", in:"Jim P."  }
 };
 /* ------------------------------------------------------------------- */
@@ -146,7 +146,7 @@ function renderRows(){
     return '<tr class="'+cls+'"><td class="wk">'+w.n+'</td><td class="date">'+fmt(dts[i])+'</td>'
       +'<td>'+w.a.map(p=>slot(p,w.d)).join(" &amp; ")+'</td>'
       +'<td>'+w.b.map(p=>slot(p,w.d)).join(" &amp; ")+'</td>'
-      +'<td class="out">'+w.out.map(name).join(", ")+'</td></tr>';
+      +'<td class="out">'+w.out.filter(p=>!subsFor(w.d).some(x=>x.in===p)).map(name).join(", ")+'</td></tr>';
   }).join("");
 }
 
@@ -195,7 +195,7 @@ function buildICS(player){
     const desc = (player? "You + "+team.filter(p=>p!==player).map(p=>show(p,w.d))[0]+" vs "+
                           opp.map(p=>show(p,w.d)).join(" & ")+"\n" : "")
                + "Team A: "+A.join(" & ")+"\nTeam B: "+B.join(" & ")
-               + "\nSitting out: "+w.out.join(", ")
+               + "\nSitting out: "+(w.out.filter(p=>!subsFor(w.d).some(x=>x.in===p)).join(", ")||"nobody")
                + (subTxt? "\nSubs: "+subTxt : "")
                + "\nWeek "+w.n+" of "+WEEKS.length;
     lines.push("BEGIN:VEVENT",
