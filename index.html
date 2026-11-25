@@ -16,7 +16,7 @@
   .wrap{max-width:940px;margin:0 auto}
   h1{margin:0 0 4px;font-size:26px;letter-spacing:-.02em}
   .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow-x:auto}
   table{width:100%;border-collapse:collapse}
   th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:15px}
   thead th{background:var(--accent-soft);color:var(--accent);font-size:12px;text-transform:uppercase;
@@ -56,7 +56,31 @@
   .barnote{font-size:13px;color:var(--muted)}
   tbody tr.dim{display:none}
   @media print{.bar,.clear{display:none}}
-  @media (max-width:640px){th,td{padding:9px 8px;font-size:14px}body{padding:16px 8px 50px}}
+  @media (max-width:760px){th,td{padding:9px 8px;font-size:14px}body{padding:16px 10px 50px}}
+  /* --- narrow screens: each week becomes a stacked card --- */
+  @media (max-width:620px){
+    h1{font-size:21px}
+    .card{border-radius:10px}
+    table,tbody,tr,td{display:block;width:100%}
+    thead{display:none}
+    tbody tr{padding:10px 13px;border-bottom:1px solid var(--line)}
+    tbody tr:last-child{border-bottom:none}
+    tbody tr.next{box-shadow:inset 4px 0 0 var(--accent)}
+    tbody tr.subrow{box-shadow:inset 4px 0 0 #b4531f}
+    td{border:none;padding:2px 0;font-size:15px}
+    td.wk{display:inline;color:var(--muted);font-size:13px}
+    td.wk::after{content:"\00a0\00b7\00a0"}
+    td.date{display:inline;font-size:13px;color:var(--muted)}
+    td[data-label]{padding-left:34px;text-indent:-34px}
+    td[data-label]::before{content:attr(data-label);display:inline-block;width:34px;
+      text-indent:0;color:var(--muted);font-size:11px;font-weight:700;
+      text-transform:uppercase;letter-spacing:.04em;vertical-align:baseline}
+    td.out{font-size:13px}
+    td.out:empty{display:none}
+    .counts table{max-width:100%}
+    .bar{gap:8px}
+    .dl,.clear{font-size:12px;padding:5px 11px}
+  }
   @media print{body{background:#fff}tbody tr.past{opacity:1}.note{display:none}}
 </style>
 </head>
@@ -95,7 +119,7 @@
   that player&rsquo;s games (7&ndash;9 pm ET, with a 2-hour reminder). Opens in Apple Calendar,
   Google Calendar and Outlook.
 </p>
-<p class="note" style="margin-top:10px">Version <span id="ver">2026-11-24</span></p>
+<p class="note" style="margin-top:10px">Version <span id="ver">2026-11-24-b</span></p>
 <script>
 const CONFIG = {
   time:"7:00\u20139:00 pm ET",      // display label
@@ -150,10 +174,11 @@ function renderRows(){
     let cls = i===nextIdx?"next":(dts[i]<today?"past":"");
     if(sel && !plays) cls+=" dim";
     if(subbed) cls+=" subrow";
+    const sitting=w.out.filter(p=>!subsFor(w.d).some(x=>x.in===p)).map(name).join(", ");
     return '<tr class="'+cls+'"><td class="wk">'+w.n+'</td><td class="date">'+fmt(dts[i])+'</td>'
-      +'<td>'+w.a.map(p=>slot(p,w.d)).join(" &amp; ")+'</td>'
-      +'<td>'+w.b.map(p=>slot(p,w.d)).join(" &amp; ")+'</td>'
-      +'<td class="out">'+w.out.filter(p=>!subsFor(w.d).some(x=>x.in===p)).map(name).join(", ")+'</td></tr>';
+      +'<td data-label="A">'+w.a.map(p=>slot(p,w.d)).join(" &amp; ")+'</td>'
+      +'<td data-label="B">'+w.b.map(p=>slot(p,w.d)).join(" &amp; ")+'</td>'
+      +'<td class="out" data-label="Out">'+sitting+'</td></tr>';
   }).join("");
 }
 
