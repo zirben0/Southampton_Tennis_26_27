@@ -47,7 +47,9 @@
       padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
   .dl:hover{filter:brightness(1.1)}
   .dl.ghost{background:#fff;color:var(--accent);font-weight:500}
-  .subout{text-decoration:line-through;opacity:.5}
+  .subout{opacity:.55}
+  .outtag{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#b4531f;
+          border:1px solid #e3c3b0;border-radius:4px;padding:0 4px;margin:0 2px;font-weight:600}
   .subin{color:#b4531f;font-weight:600}
   .subin::before{content:"\2192 ";opacity:.6}
   tbody tr.subrow{box-shadow:inset 3px 0 0 #b4531f}
@@ -93,7 +95,7 @@
   that player&rsquo;s games (7&ndash;9 pm ET, with a 2-hour reminder). Opens in Apple Calendar,
   Google Calendar and Outlook.
 </p>
-<p class="note" style="margin-top:10px">Version <span id="ver">2026-10-26 (3 subs)</span></p>
+<p class="note" style="margin-top:10px">Version <span id="ver">2026-11-24</span></p>
 <script>
 const CONFIG = {
   time:"7:00\u20139:00 pm ET",      // display label
@@ -133,7 +135,8 @@ const DOT="\u00b7", ARR="\u2192";
 
 const name=p=>'<span class="p'+(HALVES.includes(p)?' half':'')+'" data-p="'+p+'">'+p+'</span>';
 const slot=(p,d)=>{ const g=subIn(d,p);
-  return g? '<span class="subout">'+name(p)+'</span> <span class="subin">'+g+'</span>' : name(p); };
+  return g? '<span class="subout">'+name(p)+'</span><span class="outtag">out</span>'
+            +'<span class="subin">'+g+'</span>' : name(p); };
 
 document.getElementById("sub").textContent =
   WEEKS.length+" weeks "+DOT+" "+fmt(dts[0])+" "+ARR+" "+fmt(dts[dts.length-1])
