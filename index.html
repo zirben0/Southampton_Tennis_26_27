@@ -16,7 +16,8 @@
   .wrap{max-width:940px;margin:0 auto}
   h1{margin:0 0 4px;font-size:26px;letter-spacing:-.02em}
   .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow-x:auto}
+  .dshort{display:none}
   table{width:100%;border-collapse:collapse}
   th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:15px}
   thead th{background:var(--accent-soft);color:var(--accent);font-size:12px;text-transform:uppercase;
@@ -57,6 +58,18 @@
   tbody tr.dim{display:none}
   @media print{.bar,.clear{display:none}}
   @media (max-width:640px){th,td{padding:9px 8px;font-size:14px}body{padding:16px 8px 50px}}
+  /* phone portrait: trim the widest pieces so the table fits without scrolling */
+  @media (max-width:560px){
+    h1{font-size:21px}
+    body{padding:14px 8px 44px}
+    th,td{padding:8px 5px;font-size:13.5px}
+    .dlong{display:none} .dshort{display:inline}
+    td.wk,thead th:first-child{display:none}   /* week number */
+    td.out,thead th:last-child{display:none}   /* sitting out */
+    .out{font-size:12px}
+    .counts table{max-width:100%}
+    .dl,.clear{font-size:12px;padding:5px 10px}
+  }
   @media print{body{background:#fff}tbody tr.past{opacity:1}.note{display:none}}
 </style>
 </head>
@@ -95,7 +108,7 @@
   that player&rsquo;s games (7&ndash;9 pm ET, with a 2-hour reminder). Opens in Apple Calendar,
   Google Calendar and Outlook.
 </p>
-<p class="note" style="margin-top:10px">Version <span id="ver">2026-11-24</span></p>
+<p class="note" style="margin-top:10px">Version <span id="ver">2026-11-24-c</span></p>
 <script>
 const CONFIG = {
   time:"7:00\u20139:00 pm ET",      // display label
@@ -127,6 +140,7 @@ const COSTS = {"Oleg":{"games":28,"fee":774.5,"rate":27.66},"Ken":{"games":29,"f
 
 const parse=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
 const fmt=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"});
+const fmtShort=d=>d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
 const today=new Date();today.setHours(0,0,0,0);
 const dts=WEEKS.map(w=>parse(w.d));
 const nextIdx=dts.findIndex(d=>d>=today);
@@ -151,7 +165,9 @@ function renderRows(){
     if(sel && !plays) cls+=" dim";
     if(subbed) cls+=" subrow";
     const sitting=w.out.filter(p=>!subsFor(w.d).some(x=>x.in===p)).map(name).join(", ");
-    return '<tr class="'+cls+'"><td class="wk">'+w.n+'</td><td class="date">'+fmt(dts[i])+'</td>'
+    return '<tr class="'+cls+'"><td class="wk">'+w.n+'</td>'
+      +'<td class="date"><span class="dlong">'+fmt(dts[i])+'</span>'
+      +'<span class="dshort">'+fmtShort(dts[i])+'</span></td>'
       +'<td data-label="A">'+w.a.map(p=>slot(p,w.d)).join(" &amp; ")+'</td>'
       +'<td data-label="B">'+w.b.map(p=>slot(p,w.d)).join(" &amp; ")+'</td>'
       +'<td class="out" data-label="Out">'+sitting+'</td></tr>';
